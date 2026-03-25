@@ -8,6 +8,7 @@
   // $state() — form fields
   let nombre = $state(product?.nombre ?? '');
   let precio = $state(product?.precio ?? '');
+  let activo = $state(product?.activo ?? true);
   let imagenFile = $state(null);
   let saving = $state(false);
 
@@ -38,13 +39,14 @@
         // Update: send JSON
         await onSave({
           id: product._id,
-          data: { nombre: nombre.trim(), precio: Number(precio) }
+          data: { nombre: nombre.trim(), precio: Number(precio), activo }
         });
       } else {
         // Create: send FormData (supports image upload)
         const formData = new FormData();
         formData.append('nombre', nombre.trim());
         formData.append('precio', Number(precio));
+        formData.append('activo', activo);
         if (imagenFile) {
           formData.append('imagen', imagenFile);
         }
@@ -108,6 +110,11 @@
           />
         </div>
       {/if}
+
+      <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+        <input id="prod-activo" type="checkbox" bind:checked={activo} />
+        <label for="prod-activo" style="margin: 0; cursor: pointer;">Producto activo (visible en el catálogo)</label>
+      </div>
 
       <div class="modal-actions">
         <button type="button" class="btn btn-ghost" onclick={onCancel} disabled={saving}>

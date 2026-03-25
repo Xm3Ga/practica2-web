@@ -32,7 +32,14 @@
   </div>
 
   <div class="product-body">
-    <h3 class="product-name" onclick={() => onView(product._id)}>{product.nombre}</h3>
+    <h3 class="product-name" onclick={() => onView(product._id)}>
+      {product.nombre}
+      {#if product.activo === false || product.activo === 'false'}
+        <span class="badge badge-inactive">Inactivo</span>
+      {:else}
+        <span class="badge badge-active">Activo</span>
+      {/if}
+    </h3>
     <span class="product-price">{formattedPrice}</span>
   </div>
 
@@ -110,6 +117,26 @@
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--success);
+  }
+
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+    text-transform: uppercase;
+  }
+
+  .badge-active {
+    background: rgba(34, 197, 94, 0.15); /* success semi-bg */
+    color: var(--success);
+  }
+
+  .badge-inactive {
+    background: rgba(239, 68, 68, 0.15); /* danger semi-bg */
+    color: var(--danger);
   }
 
   .product-actions {
